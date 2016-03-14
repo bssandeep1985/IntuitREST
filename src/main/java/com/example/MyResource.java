@@ -1,8 +1,13 @@
 package com.example;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -25,7 +30,25 @@ public class MyResource {
     
     @GET
     @Path("/otherstuff")
-    public String getOtherStuff() {
-    	return "other stuff";
+    public String getOtherStuff(@QueryParam("name") String name, 
+    		@QueryParam("address") String address,
+    		@DefaultValue("UNSET") @HeaderParam("x-simon-header") String simonHeader) {
+    	return "other stuff, name is " + name
+    			+ " and address is " + address
+    			+ " header is " + simonHeader;
     }
+    
+    @DELETE	
+    @Path("/otherstuff")
+    public String deleteOtherStuff() {
+    	return "DELETED other stuff";
+    }
+    
+    // resource e.g. .../customers/<pk>
+    @GET
+    @Path("/customers/ID-{id: \\d+}")
+    public String getOneCustomer(@PathParam("id") String theId) {
+    	return "This is customer " + theId;
+    }
+    
 }
