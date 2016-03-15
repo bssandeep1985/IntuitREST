@@ -1,8 +1,10 @@
 package com.example;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -111,6 +113,35 @@ public class MyResource {
 			rb.header("x-reason", "you asked a silly question");
 		}
 
+		return rb.build();
+	}
+	
+	@Path("/mydatas/{id: \\d+}")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getOneMyData(@PathParam("id") int id) {
+		ResponseBuilder rb = Response.ok();
+		
+		MyData md = new MyData("Fred", 99);
+		rb.entity(md);
+		
+		return rb.build();
+	}
+	
+	@Path("/mydatas")
+	@POST
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response createOneMyData(MyData md) {
+		ResponseBuilder rb = Response.ok();
+		
+		System.out.println("Received a MyData: " + md);
+		
+		md.count += 1;
+		md.name = "Mx. " + md.name;
+		rb.entity(md);
+		rb.header("location", "1234");
+		
 		return rb.build();
 	}
 }
