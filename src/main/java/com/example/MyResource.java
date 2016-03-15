@@ -1,5 +1,6 @@
 package com.example;
 
+import javax.inject.Singleton;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -14,8 +15,13 @@ import javax.ws.rs.core.MediaType;
  * Root resource (exposed at "myresource" path)
  */
 @Path("/myresource")
+//@Singleton
 public class MyResource {
-
+	@HeaderParam("x-simon") String simonHeader;
+	@HeaderParam("x-fred") String fredHeader;
+	{
+		System.out.println("Instantiating MyResource...");
+	}
     /**
      * Method handling HTTP GET requests. The returned object will be sent
      * to the client as "text/plain" media type.
@@ -25,17 +31,20 @@ public class MyResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
-        return "Got it!";
+        return "Got it! simon header is " + simonHeader
+        		+ " fredHeader is " + fredHeader;
     }
     
     @GET
     @Path("/otherstuff")
     public String getOtherStuff(@QueryParam("name") String name, 
-    		@QueryParam("address") String address,
-    		@DefaultValue("UNSET") @HeaderParam("x-simon-header") String simonHeader) {
+    		@QueryParam("address") String address
+//    		, @DefaultValue("UNSET") @HeaderParam("x-simon-header") String simonHeader
+    		) {
     	return "other stuff, name is " + name
-    			+ " and address is " + address
-    			+ " header is " + simonHeader;
+    			+ " and address is " + address 
+    			+ " simon header is " + simonHeader
+        		+ " fredHeader is " + fredHeader;
     }
     
     @DELETE	
