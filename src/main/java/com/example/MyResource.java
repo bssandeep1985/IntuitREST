@@ -1,15 +1,16 @@
 package com.example;
 
-import javax.inject.Singleton;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -59,5 +60,19 @@ public class MyResource {
     public String getOneCustomer(@PathParam("id") String theId) {
     	return "This is customer " + theId;
     }
+    @GET
+    @Path("/headers")
+    public String getAllHeaders(@Context HttpHeaders headers) {
+    		String name = headers.getHeaderString("x-name");
+    		return "name is " + name;
+    }
     
+    @GET
+    @Path("/path/{path: [a-zA-Z0-9/-]*}")
+    public String getFancyPath(@PathParam("path") String path,
+    		@Context UriInfo uriInfo) {
+    	
+    	return "path is: " + path
+    			+ " absolute is: " + uriInfo.getAbsolutePath();
+    }
 }
