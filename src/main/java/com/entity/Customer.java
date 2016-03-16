@@ -3,10 +3,12 @@ package com.entity;
 public class Customer {
 	private String name;
 	private String address;
+	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
+		if (name == null) throw new IllegalArgumentException("null name not permitted");	
 		this.name = name;
 	}
 	public String getAddress() {

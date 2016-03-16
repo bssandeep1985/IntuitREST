@@ -23,4 +23,19 @@ public class CustomerNav {
 		return Response.ok(self.getName()).build();
 	}
 	
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response doGetWholeCustomer() {
+		System.out.println("in CustomerNav.doGetWholeCustomer");
+		return Response.ok(self).build();
+	}
+	
+	// NOT annotated with HTTP method
+//	@Path("/suppliers/{idx: \\d+}")
+//	public SupplierNav doGetOneSupplierOfCustomer() {
+//		
+//		Supplier s = self.getSuppliers().get(idx);
+//		return new SupplierNav(s);
+//	}
 }

@@ -1,5 +1,6 @@
 package com.example;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
@@ -16,4 +17,11 @@ public class CustomersRootResource {
 		Customer c = CustomerDAO.findByPrimaryKey(pk);
 		return new CustomerNav(c);
 	}
+	
+	// MUST NOT HAVE another method that handles the same path/path-root as a navigation method!!!!
+//	@Path("/{id: \\d+}")
+//	@GET
+//	public String doBroken() {
+//		
+//	}
 }
