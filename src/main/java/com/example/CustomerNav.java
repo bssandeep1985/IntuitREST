@@ -7,6 +7,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.entity.Customer;
+import com.transferobjects.CustomerTO;
 
 public class CustomerNav {
 	private Customer self;
@@ -25,10 +26,10 @@ public class CustomerNav {
 	
 	@GET
 	@Path("/")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response doGetWholeCustomer() {
 		System.out.println("in CustomerNav.doGetWholeCustomer");
-		return Response.ok(self).build();
+		return Response.ok(new CustomerTO(self)).build();
 	}
 	
 	// NOT annotated with HTTP method

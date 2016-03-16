@@ -9,6 +9,8 @@ public class CustomerTO {
 	public String name;
 	public String address;
 	
+	public CustomerTO() {} // FOR JAX-B
+	
 	public CustomerTO(Customer self) {
 		this.name = self.getName();
 		this.address = self.getAddress();
