@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -119,10 +120,11 @@ public class MyResource {
 	@Path("/mydatas/{id: \\d+}")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getOneMyData(@PathParam("id") int id) {
+	public Response getOneMyData(@PathParam("id") int id) throws MyDBPKNotFoundException {
 		ResponseBuilder rb = Response.ok();
+		validate(id);
 		
-		MyData md = new MyData("Fred", 99);
+		MyData md = findByPrimaryKey(id);
 		rb.entity(md);
 		
 		return rb.build();
@@ -143,5 +145,23 @@ public class MyResource {
 		rb.header("location", "1234");
 		
 		return rb.build();
+	}
+	
+	private void validate(int id) {
+		if (id < 0 || id > 100) {
+			throw new WebApplicationException(
+					Response
+					.status(Response.Status.NOT_FOUND)
+					.entity("<HTML><BODY>NOT FOUND " + id + "</BODY></HTML>")
+					.build()
+					);
+		}
+	}
+	
+	public MyData findByPrimaryKey(int id) throws MyDBPKNotFoundException {
+		if (id > 50) {
+			throw new MyDBPKNotFoundException(id);
+		}
+		return new MyData("Fred", id);
 	}
 }
